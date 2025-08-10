@@ -7,8 +7,16 @@
 /// assert_eq!(result, "Hello, World!");
 /// ```
 pub fn greet(name: &str) -> String {
-    format!("Hello, {}!", name)
+    format!("Hello, {name}!")
 }
+
+pub mod config;
+pub mod alpaca;
+pub mod error;
+pub mod http;
+pub mod trading;
+pub mod market_data;
+pub mod streaming;
 
 #[cfg(test)]
 mod tests {
