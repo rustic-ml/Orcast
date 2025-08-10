@@ -19,7 +19,6 @@ exclude = [
     ".vscode/**",
     "scripts/**",
     "images/**",
-    "src/main.rs",
     "Cargo.lock",
     ".gitignore",
     "*.orig",
