@@ -1,6 +1,6 @@
 [package]
 name = "orcast"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 description = "Lean Alpaca options trading client scaffolding (paper-first, Level 3-ready)"
 authors = ["Orcast Contributors"]
@@ -9,6 +9,17 @@ repository = "https://github.com/yourusername/orcast"
 readme = "README.md"
 keywords = ["alpaca", "options", "trading", "client", "rust"]
 categories = ["development-tools", "api-bindings"]
+exclude = [
+    "docs/**",
+    "examples/**",
+    "tests/**",
+    "target/**",
+    ".github/**",
+    ".idea/**",
+    ".vscode/**",
+    "scripts/**",
+    "images/**",
+]
 
 [dependencies]
 thiserror = "1"
