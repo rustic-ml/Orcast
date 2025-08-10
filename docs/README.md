@@ -1,6 +1,6 @@
-### Orcast: Alpaca Options Trading (Rust)
+### Orcast: OHLCV‑Driven Options Ticker Screener (Rust)
 
-Purpose: lean Rust client for Alpaca US equity options. Paper first; Level 3 (multi‑leg) ready.
+Purpose: suggest tickers for options strategies using daily OHLCV features.
 
 - Key capabilities
   - Option chains and latest quotes/trades (REST; streaming optional)
@@ -18,9 +18,8 @@ See `docs/REFERENCE.md`.
 ### Module layout
 - `config`: env loading with precedence and safe test resolver
 - `http`: shared reqwest client
-- `alpaca`: request builders for orders/positions
-- `trading`: single-leg submit scaffold; map strategy legs → order JSON
-- `market_data`: option chain/quotes (stub)
+- `market_data`: daily OHLCV fetch (stocks)
+- `screener`: rank tickers per strategy category from OHLCV
 - `streaming`: trade updates and option quotes (stubs)
 - `strategies`: per‑strategy modules emitting legs
   - `long_call`, `long_put`, `covered_call`, `protective_put`,
@@ -28,10 +27,7 @@ See `docs/REFERENCE.md`.
 
 ### Examples (runnable)
 - `simple.rs`: config sanity
-- `place_single_leg_order.rs`: single‑leg order body → POST request
-- `place_multi_leg_order.rs`: multi‑leg body → POST request
-- `get_positions.rs`: GET positions request
-- `stream_trade_updates.rs`: streaming placeholder
+- `screen_tickers.rs`: score a universe from daily OHLCV and suggest top tickers
 
 ### Risk controls (must pass before send)
 - Approvals level (L1/L2/L3) and buying power

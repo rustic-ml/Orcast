@@ -1,14 +1,14 @@
 [package]
 name = "orcast"
-version = "0.1.2"
+version = "0.2.0"
 edition = "2024"
-description = "Lean Alpaca options trading client scaffolding (paper-first, Level 3-ready)"
+description = "OHLCV-driven options ticker screener (Rust). Fetch daily bars; rank tickers per strategy category."
 authors = ["Orcast Contributors"]
 license = "MIT"
-repository = "https://github.com/yourusername/orcast"
+repository = "https://github.com/rustic-ml/Orcast"
 readme = "README.md"
-keywords = ["alpaca", "options", "trading", "client", "rust"]
-categories = ["development-tools", "api-bindings"]
+keywords = ["ohlcv", "screener", "options", "rust"]
+categories = ["algorithms", "development-tools"]
 exclude = [
     "docs/**",
     "examples/**",
