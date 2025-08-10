@@ -17,6 +17,7 @@ pub mod http;
 pub mod trading;
 pub mod market_data;
 pub mod streaming;
+pub mod strategies;
 
 #[cfg(test)]
 mod tests {
