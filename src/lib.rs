@@ -15,6 +15,8 @@ pub mod error;
 pub mod http;
 pub mod market_data;
 pub mod screener;
+pub mod util;
+pub mod features;
 
 #[cfg(test)]
 mod tests {

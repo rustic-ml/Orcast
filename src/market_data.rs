@@ -1,5 +1,6 @@
 use crate::error::{OrcastError, Result};
 use serde::Deserialize;
+use std::collections::HashMap;
 
 #[derive(Debug, Clone)]
 pub struct DailyBarsRequest {
@@ -52,6 +53,42 @@ pub async fn get_daily_bars(client: &reqwest::Client, req: &DailyBarsRequest, ap
         .await
         .map_err(OrcastError::Http)?;
     Ok(resp.bars)
+}
+
+pub fn read_daily_bars_from_csv<R: std::io::Read>(reader: R) -> Result<Vec<DailyBar>> {
+    let mut rdr = csv::Reader::from_reader(reader);
+    let headers = rdr
+        .headers()
+        .map_err(|e| OrcastError::Config(format!("csv headers: {e}")))?
+        .clone();
+    let index: HashMap<String, usize> = headers
+        .iter()
+        .enumerate()
+        .map(|(i, h)| (h.trim().to_ascii_lowercase(), i))
+        .collect();
+
+    let mut rows = Vec::new();
+    for rec in rdr.records() {
+        let rec = rec.map_err(|e| OrcastError::Config(format!("csv record: {e}")))?;
+        let get = |key: &str| -> Result<&str> {
+            let k = key.to_ascii_lowercase();
+            let pos = index
+                .get(&k)
+                .ok_or_else(|| OrcastError::Config(format!("missing column: {key}")))?;
+            rec.get(*pos)
+                .ok_or_else(|| OrcastError::Config(format!("column out of bounds: {key}")))
+        };
+
+        let open: f64 = get("open")?.parse().map_err(|e| OrcastError::Config(format!("open parse: {e}")))?;
+        let high: f64 = get("high")?.parse().map_err(|e| OrcastError::Config(format!("high parse: {e}")))?;
+        let low: f64 = get("low")?.parse().map_err(|e| OrcastError::Config(format!("low parse: {e}")))?;
+        let close: f64 = get("close")?.parse().map_err(|e| OrcastError::Config(format!("close parse: {e}")))?;
+        let timestamp = get("timestamp")?.to_string();
+        let volume: f64 = get("volume")?.parse().map_err(|e| OrcastError::Config(format!("volume parse: {e}")))?;
+
+        rows.push(DailyBar { t: timestamp, o: open, h: high, l: low, c: close, v: volume });
+    }
+    Ok(rows)
 }
 
 

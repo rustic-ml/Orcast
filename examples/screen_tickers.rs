@@ -2,6 +2,7 @@ use orcast::config::TradingConfig;
 use orcast::http::build_http_client;
 use orcast::market_data::{DailyBarsRequest, get_daily_bars, DailyBar};
 use orcast::screener::{rank_universe, StrategyCategory};
+use orcast::util::prepare_result_dir;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -10,6 +11,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let data_base_url = std::env::var("APCA_DATA_BASE_URL").unwrap_or_else(|_| "https://data.alpaca.markets".to_string());
 
     let symbols = vec!["AAPL", "MSFT", "NVDA", "SPY", "QQQ"];
+    // Clean results dir before run
+    prepare_result_dir("result")?;
     let mut universe: Vec<(&str, Vec<DailyBar>)> = Vec::new();
     for sym in &symbols {
         let bars = get_daily_bars(
